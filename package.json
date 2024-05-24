@@ -1,0 +1,34 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "scripts": {
+    "create_migration": "npx sequelize-cli migration:create --name",
+    "migrate": "npx sequelize-cli db:migrate",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "logs:dev": "serverless logs -t -f api --stage dev",
+    "logs:qas": "serverless logs -t -f api --stage qas",
+    "logs:prd": "serverless logs -t -f api --stage prd",
+    "deploy:dev": "serverless deploy function -f api --stage dev",
+    "deploy:qas": "serverless deploy function -f api --stage qas",
+    "deploy:prd": "serverless deploy function -f api --stage prd",
+    "deploy:all": "serverless deploy function -f api --stage dev && serverless deploy function -f api --stage prd",
+    "deploy:dev:force": "serverless deploy --stage dev",
+    "deploy:qas:force": "serverless deploy --stage qas",
+    "deploy:prd:force": "serverless deploy --stage prd",
+    "deploy:all:force": "npm run deploy:dev:force && npm run deploy:qas:force && npm run deploy:prd:force",
+    "generate:layer": "echo Se removerá la carpeta nodejs si existe && rmdir /S nodejs 2> nul & echo Se creará la carpeta nodejs si no existe && mkdir nodejs && echo Se copiará package.json y package-lock.json a la ruta /nodejs && xcopy package.json nodejs && xcopy package-lock.json nodejs && echo Nos trasladamos a la ruta /nodejs && cd nodejs && echo Descargamos los módulos de producción && npm install --only=prod && echo Eliminamos package.json y package-lock.json que copiamos previamente && cd.. && del /f nodejs\\package.json && del /f nodejs\\package-lock.json && echo Eliminaremos layer.zip si existe && del /S layer.zip && echo Comprimiendo layer.zip... && powershell; Compress-Archive .\\nodejs layer && echo Eliminamos la carpeta nodejs && rmdir /S nodejs 2> nul"
+  }
+}
