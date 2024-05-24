@@ -30,5 +30,9 @@
     "deploy:prd:force": "serverless deploy --stage prd",
     "deploy:all:force": "npm run deploy:dev:force && npm run deploy:qas:force && npm run deploy:prd:force",
     "generate:layer": "echo Se removerá la carpeta nodejs si existe && rmdir /S nodejs 2> nul & echo Se creará la carpeta nodejs si no existe && mkdir nodejs && echo Se copiará package.json y package-lock.json a la ruta /nodejs && xcopy package.json nodejs && xcopy package-lock.json nodejs && echo Nos trasladamos a la ruta /nodejs && cd nodejs && echo Descargamos los módulos de producción && npm install --only=prod && echo Eliminamos package.json y package-lock.json que copiamos previamente && cd.. && del /f nodejs\\package.json && del /f nodejs\\package-lock.json && echo Eliminaremos layer.zip si existe && del /S layer.zip && echo Comprimiendo layer.zip... && powershell; Compress-Archive .\\nodejs layer && echo Eliminamos la carpeta nodejs && rmdir /S nodejs 2> nul"
+  },
+  "devDependencies": {
+    "serverless-plugin-utils": "^0.2.0",
+    "serverless-stage-manager": "^1.0.5"
   }
 }
