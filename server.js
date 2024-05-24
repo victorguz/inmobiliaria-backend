@@ -13,15 +13,33 @@ app.use(cors());
 
 // Ruta de login
 app.post('/login', (req, res) => {
-    const userId = req.body.userId; // Ejemplo de userId
-    const token = jwt.sign({ id: userId }, SECRET_KEY, { expiresIn: 86400 }); // Expira en 24 horas
-    res.status(200).send({  token: token });
+    const {username, password, users} = req.body; 
+    const find=users?.find(user=>user.username===username );
+    if(find){
+    if(find.password===password){
+        const userId = find?.id;
+        const token = jwt.sign({ id: userId }, SECRET_KEY, { expiresIn: 86400 }); // Expira en 24 horas
+        res.status(200).send({  token: token });
+    }else{
+        res.status(401).send({ message: 'Usuario o contraseña incorrecta' });
+    }
+}else{
+        res.status(404).send({ message: 'El usuario no existe' });
+
+    }
 });
 
-
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.post('/registrar', (req, res) => {
+    const {username, password,rol, users} = req.body; 
+    const find=users?.find(user=>user.username===username );
+    if(find){
+        res.status(404).send({ message: 'El usuario ya existe' });
+    }
+        res.status(200).send(req.body);
 });
+
+// app.listen(PORT, () => {
+//     console.log(`Server running on port ${PORT}`);
+// });
 
 module.exports = app;
